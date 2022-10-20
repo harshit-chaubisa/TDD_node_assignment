@@ -18,7 +18,6 @@ describe('User Registration.', () => {
         })
         .then((response) => {
             expect(response.status).toBe(201);
-            done();
         });
     });
 
@@ -32,13 +31,12 @@ describe('User Registration.', () => {
             phNo : "7737110740",
             psswd : "harshit"
         })
-        .expect(201)
+        .expect(409)
         .then((response) => {
             expect({
                 success : 0,
                 message : "User already exists."
-            })
-            done();
+            });
         });
     });
 
@@ -56,9 +54,8 @@ describe('User Registration.', () => {
         .then((response) => {
             expect({
                 success : 0,
-                message : "Please enter all the requests properly."
+                message : "Please enter all the parameters properly."
             })
-            done();
         });
     });
 });
@@ -80,7 +77,6 @@ describe("User Login", () => {
                 message : "Login Successful.",
                 token : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXN1bHQiOnsiaWQiOjgsImZOYW1lIjoiVGFudSIsImxOYW1lIjoiU2hhcm1hMiIsImVNYWlsIjoidGFudUBnbWFpbC5jb20iLCJwaE5vIjoiODg4Nzc3MzMzMiJ9LCJpYXQiOjE2NjYwODg0MTF9.BuSKU6rmD7GM_yyPvF-zqivi5W9TuoftSB_vwdBR4w4"
             });
-            done();
         });
     });
 
@@ -97,7 +93,6 @@ describe("User Login", () => {
                 success : 0,
                 message : "Please enter all the details."
             });
-            done();
         });
     });
 
@@ -114,7 +109,6 @@ describe("User Login", () => {
                 success : 0,
                 message : "Invalid phone number or password."
             });
-            done();
         });
     });
 });
@@ -139,7 +133,6 @@ describe("Get Users.", () => {
                     }
                 ]
             });
-            done();
         });
     });
 
@@ -161,7 +154,6 @@ describe("Get Users.", () => {
                     }
                 ]
             });
-            done();
         });
     });
 
@@ -174,7 +166,6 @@ describe("Get Users.", () => {
                 success : 0,
                 message : "The user doesn't exists."
             });
-            done();
         });
     });
 });
@@ -197,7 +188,6 @@ describe('update user.', () => {
                 success : 1,
                 message : "Updated successfully."
             });
-            done();
         });
     });
 
@@ -217,7 +207,6 @@ describe('update user.', () => {
                 success : 0,
                 message : "Failed to Update user."
             });
-            done();
         });
     });
 });
@@ -233,7 +222,6 @@ describe('Delete User' ,() =>{
                 success : 1,
                 message : "Record Not found."
             });
-            done();
         });
     });
 
@@ -246,7 +234,6 @@ describe('Delete User' ,() =>{
                 success : 1,
                 message : "User deleted Successfully."
             });
-            done();
         });
     });
 });
