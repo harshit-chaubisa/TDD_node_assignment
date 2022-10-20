@@ -89,7 +89,7 @@ describe("Get auditoriums.", () => {
         });
     });
 
-    it('Returns 404 Not Found where the user doesnt exists.', () => {
+    it('Returns 404 Not Found where the auditorium doesnt exists.', () => {
         return request(app)
         .get('/api/auditorium/44')
         .expect(404)

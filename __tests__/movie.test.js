@@ -75,7 +75,7 @@ describe("Get movies.", () => {
                         prodCast : "Salmaan Khan",
                         description : "Romance",
                         durationMin : 180
-                    },
+                    }
                 ]
             });
         });
@@ -96,13 +96,13 @@ describe("Get movies.", () => {
                         prodCast : "Salmaan Khan",
                         description : "Romance",
                         durationMin : 180
-                    },
+                    }
                 ]
             });
         });
     });
 
-    it('Returns 404 Not Found where the user doesnt exists.', () => {
+    it('Returns 404 Not Found where the movie doesnt exists.', () => {
         return request(app)
         .get('/api/movie/44')
         .expect(404)
