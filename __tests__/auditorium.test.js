@@ -51,7 +51,7 @@ describe('Adding new auditorium.', () => {
     });
 });
 
-// test cases for getting users(get request for accessing all users and also get user by id.)
+// test cases for getting auditoriums(get request for accessing all auditoriums and also get auditorium by id.)
 describe("Get auditoriums.", () => {
     it('Returns 200 Ok for getting all the auditoriums.', () => {
         return request(app)
@@ -59,12 +59,12 @@ describe("Get auditoriums.", () => {
         .expect(200)
         .then((response) => {
             expect({
-                    "success": 1,
-                    "data": [
+                    success: 1,
+                    data: [
                         {
-                            "id": 1,
-                            "name": "PVR",
-                            "seats": 150
+                            id: 1,
+                            name: "PVR",
+                            seats: 150
                         }
                     ]
             });
@@ -77,12 +77,12 @@ describe("Get auditoriums.", () => {
         .expect(200)
         .then((response) => {
             expect({
-                "success": 1,
-                "data": [
+                success : 1,
+                data : [
                     {
-                        "id": 1,
-                        "name": "PVR",
-                        "seats": 150
+                        id : 1,
+                        name : "PVR",
+                        seats : 150
                     },
                 ]
             });
