@@ -1,5 +1,6 @@
-const app = require('./app');
+// const app = require('./app');
+// const ck = require("ckey");
 
-app.listen(4000, () => {
-    console.log('Hello, the app is running.');
-});
+// app.listen(ck.APP_PORT, () => {
+//     console.log('Hello, the app is running.');
+// });

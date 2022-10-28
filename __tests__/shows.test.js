@@ -3,12 +3,15 @@ const request = require("supertest");
 const { response } = require("../app");
 const app = require("../app");
 
+let adminToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXN1bHQiOnsiaWQiOjIsInVzZXJOYW1lIjoiYWRtaW4yIn0sImlhdCI6MTY2NjkxOTkzOX0.Y5XkpU3qd6pDO4sKvlMOy9xeVmco3yJaodm2QzgRQoo'
+
 
 // test cases for adding new show (post request for show.)
 describe('Adding new show.', () => {
     it('Returns 201 created when new show is added.', () =>{
         return request(app)
-        .post('/api/show')
+        .post('/api/shows')
+        .auth(adminToken, { type: 'bearer' })
         .send({
             movieId : 1,
             auditoriumId : 1,
@@ -20,7 +23,8 @@ describe('Adding new show.', () => {
 
     it('Returns 409 conflict as the show is already present.', () => {
         return request(app)
-        .post('/api/show')
+        .post('/api/shows')
+        .auth(adminToken, { type: 'bearer' })
         .send({
             movieId : 1,
             auditoriumId : 1,
@@ -41,7 +45,8 @@ describe('Adding new show.', () => {
 describe("Get shows.", () => {
     it('Returns 200 Ok for getting all the shows.', () => {
         return request(app)
-        .get('/api/show')
+        .get('/api/shows')
+        .auth(adminToken, { type: 'bearer' })
         .expect(200)
         .then((response) => {
             expect({
@@ -61,7 +66,8 @@ describe("Get shows.", () => {
 
     it('Returns 200 Ok for getting an show with the help of its id.', () => {
         return request(app)
-        .get('/api/show/1')
+        .get('/api/shows/1')
+        .auth(adminToken, { type: 'bearer' })
         .expect(200)
         .then((response) => {
             expect({
@@ -81,8 +87,9 @@ describe("Get shows.", () => {
 
     it('Returns 404 Not Found where the show doesnt exists.', () => {
         return request(app)
-        .get('/api/show/44')
-        .expect(404)
+        .get('/api/shows/44')
+        .auth(adminToken, { type: 'bearer' })
+        .expect(200)
         .then((response) => {
             expect({
                 success : 0,
@@ -92,50 +99,15 @@ describe("Get shows.", () => {
     });
 });
 
-// Test cases for patch request of show entity.
-describe('update show.', () => {
-    it('Returns 200 OK when the update is successful.', () => {
-        return request(app)
-        .patch('/api/show/2')
-        .send({
-            movieId : 1,
-            auditoriumId : 2,
-            screeningTime : "",
-            screenNo : 4
-        })
-        .expect(200)
-        .then((response) => {
-            expect({
-                success : 1,
-                message : "Updated successfully."
-            });
-        });
-    });
 
-    it('Returns 400 Bad Request when the request is not valid.', () => {
-        return request(app)
-        .patch('/api/show/1')
-        .send({
-            movieId : 1,
-            auditoriumId : 1,
-            screeningTime : ""
-        })
-        .expect(400)
-        .then((response) => {
-            expect({
-                success : 0,
-                message : "Failed to Update show."
-            });
-        });
-    });
-});
 
 // Test cases for delete show Request of the user.
 describe('Delete show' ,() =>{
     it('Returns 404 Not Found where the show was not found.', () => {
         return request(app)
-        .delete('/api/show/22')
-        .expect(404)
+        .delete('/api/shows/22')
+        .auth(adminToken, { type: 'bearer' })
+        .expect(200)
         .then((response) => {
             expect({
                 success : 1,
@@ -146,7 +118,8 @@ describe('Delete show' ,() =>{
 
     it('Returns 200 Ok where the show was deleted successfully.', () => {
         return request(app)
-        .delete('/api/show/1')
+        .delete('/api/shows/1')
+        .auth(adminToken, { type: 'bearer' })
         .expect(200)
         .then((response) => {
             expect({

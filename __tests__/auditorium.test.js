@@ -3,24 +3,26 @@ const request = require("supertest");
 const { response } = require("../app");
 const app = require("../app");
 
+let adminToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXN1bHQiOnsiaWQiOjIsInVzZXJOYW1lIjoiYWRtaW4yIn0sImlhdCI6MTY2NjkxOTkzOX0.Y5XkpU3qd6pDO4sKvlMOy9xeVmco3yJaodm2QzgRQoo'
+
 
 // test cases for adding new auditorium (post request for auditorium.)
 describe('Adding new auditorium.', () => {
     it('Returns 201 created when new auditorium is added.', () =>{
         return request(app)
         .post('/api/auditorium')
+        .auth(adminToken, { type: 'bearer' })
         .send({
             name : "PVR",
             seats : 150
         })
-        .then((response) => {
-            expect(response.status).toBe(201);
-        });
+        .expect(201);
     });
 
     it('Returns 409 conflict as the auditorium is already present.', () => {
         return request(app)
         .post('/api/auditorium')
+        .auth(adminToken, { type: 'bearer' })
         .send({
             name : "PVR",
             seats : 150
@@ -33,22 +35,6 @@ describe('Adding new auditorium.', () => {
             })
         });
     });
-
-    it('Returns 400 Bad Request as the post data is not complete', () => {
-        return request(app)
-        .post('/api/auditorium')
-        .send({
-            name : "",
-            seats : 230
-        })
-        .expect(400)
-        .then((response) => {
-            expect({
-                success : 0,
-                message : "Please enter all the parameters properly."
-            })
-        });
-    });
 });
 
 // test cases for getting auditoriums(get request for accessing all auditoriums and also get auditorium by id.)
@@ -56,6 +42,7 @@ describe("Get auditoriums.", () => {
     it('Returns 200 Ok for getting all the auditoriums.', () => {
         return request(app)
         .get('/api/auditorium')
+        .auth(adminToken, { type: 'bearer' })
         .expect(200)
         .then((response) => {
             expect({
@@ -74,6 +61,7 @@ describe("Get auditoriums.", () => {
     it('Returns 200 Ok for getting an auditorium with the help of its id.', () => {
         return request(app)
         .get('/api/auditorium/1')
+        .auth(adminToken, { type: 'bearer' })
         .expect(200)
         .then((response) => {
             expect({
@@ -89,10 +77,11 @@ describe("Get auditoriums.", () => {
         });
     });
 
-    it('Returns 404 Not Found where the auditorium doesnt exists.', () => {
+    it('Returns 200 ok where the auditorium doesnt exists.', () => {
         return request(app)
         .get('/api/auditorium/44')
-        .expect(404)
+        .auth(adminToken, { type: 'bearer' })
+        .expect(200)
         .then((response) => {
             expect({
                 success : 0,
@@ -106,7 +95,8 @@ describe("Get auditoriums.", () => {
 describe('update auditorium.', () => {
     it('Returns 200 OK when the update is successful.', () => {
         return request(app)
-        .patch('/api/auditorium/2')
+        .patch('/api/auditorium/1')
+        .auth(adminToken, { type: 'bearer' })
         .send({
             name : "Inox",
             seats : 160
@@ -120,18 +110,17 @@ describe('update auditorium.', () => {
         });
     });
 
-    it('Returns 400 Bad Request when the request is not valid.', () => {
+    it('Returns 200 ok when there is no change.', () => {
         return request(app)
         .patch('/api/auditorium/1')
+        .auth(adminToken, { type: 'bearer' })
         .send({
-            name : "",
-            seats : 160
         })
-        .expect(400)
+        .expect(200)
         .then((response) => {
             expect({
                 success : 0,
-                message : "Failed to Update auditorium."
+                message : "User Updated."
             });
         });
     });
@@ -142,7 +131,8 @@ describe('Delete auditorium' ,() =>{
     it('Returns 404 Not Found where the auditorium was not found.', () => {
         return request(app)
         .delete('/api/auditorium/22')
-        .expect(404)
+        .auth(adminToken, { type: 'bearer' })
+        .expect(200)
         .then((response) => {
             expect({
                 success : 1,
@@ -154,6 +144,7 @@ describe('Delete auditorium' ,() =>{
     it('Returns 200 Ok where the auditorium was deleted successfully.', () => {
         return request(app)
         .delete('/api/auditorium/1')
+        .auth(adminToken, { type: 'bearer' })
         .expect(200)
         .then((response) => {
             expect({
